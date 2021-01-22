@@ -9,3 +9,9 @@ Add the following lines to ~/.ssh/config (create if it doesn't exist):-
 Host orc-*
   StrictHostKeyChecking no
 
+Add the following line to /etc/libvirt/libvirt.conf
+
+uri_default = "qemu:///system"
+
+
+
