@@ -7,13 +7,12 @@ Vagrant.configure("2") do |config|
   config.hostmanager.manage_guest=false	
   config.vm.box = "generic/centos8"
   config.vm.synced_folder ".", "/vagrant", disabled:true
-  config.vm.define "app1" do |app_vm|
-     app_vm.vm.hostname = "orc-app1"
-  end
 
-  config.vm.define "app2" do |app_vm|
-    app_vm.vm.hostname = "orc-app2"
-  end
+  (1..3).each do |index|
+    config.vm.define "app#{index}" do |node|
+      node.vm.hostname = "orc-app#{index}"
+    end
+  end    
 
   config.vm.define "db" do |db_vm|
     db_vm.vm.hostname = "orc-db"
