@@ -9,9 +9,20 @@ Add the following lines to ~/.ssh/config (create if it doesn't exist):-
 Host orc-*
   StrictHostKeyChecking no
 
-Add the following line to /etc/libvirt/libvirt.conf
 
-uri_default = "qemu:///system"
+To list vms run: virsh -c qemu:///system list
+
+To have virsh default to the sytem uri do one of:-
+
+    set environment variable LIBVIRT_DEFAULT_URI="qemu:///system"
+
+    add the following line to ~/.config/libvirt/libvirt.conf: uri_default = "qemu:///system"
+
+
+Check the default uri with virsh uri.
+
+You can then list the vms with virsh list
+
 
 
 
