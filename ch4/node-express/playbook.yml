@@ -16,7 +16,6 @@
       dnf:
         name: npm
         state: present
-        enablerepo: epel-release
 
     - name: Install Forever package
       npm: 
@@ -45,4 +44,4 @@
 
     - name: Start node app
       command: "{{ node_bin_path }}/forever start {{ node_apps_location }}/app/app.js"
-      when: "forever_list.stdout.find({{ node_apps_location }} + '/app/app.js') == -1"
+      when: "forever_list.stdout.find(node_apps_location  + '/app/app.js') == -1"
