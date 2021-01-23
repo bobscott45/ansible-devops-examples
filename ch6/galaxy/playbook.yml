@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+
+  vars:
+    php_mysql_package: php-mysqlnd
+
+  roles:
+    - geerlingguy.mysql
+    - geerlingguy.apache
+    - geerlingguy.php
+    - geerlingguy.php-mysql
+
+  tasks:
+    - name: Stop firewall
+      service:
+        name: firewalld
+        state: stopped
+
+    - name: Copy index.html
+      copy: 
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'        
+
+

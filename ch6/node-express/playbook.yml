@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: yes
+
+  vars:
+    node_apps_location: /usr/local/opt/node_apps_location
+    node_bin_path: /usr/local/bin
+    node_npm_modules: [forever, async, request]
+
+  pre_tasks:
+    - name: Stop firewall
+      service:
+        name: firewalld
+        state: stopped  
+
+  roles:
+    - nodejs  
+
+  tasks: 
+    - name: Ensure Node.js app folder exists
+      file:
+        path: "{{ node_apps_location }}"
+        state: directory
+
+    - name: Copy node application
+      copy:
+        src: app
+        dest: "{{ node_apps_location }}"
+
+    - name: Install app dependencies
+      npm:
+        path: "{{ node_apps_location }}/app"
+
+    - name: Check running node apps 
+      command: "{{ node_bin_path }}/forever list"
+      register: forever_list
+      changed_when: false
+
+    - name: Start node app
+      command: "{{ node_bin_path }}/forever start {{ node_apps_location }}/app/app.js"
+      when: "forever_list.stdout.find(node_apps_location  + '/app/app.js') == -1"
